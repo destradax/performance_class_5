@@ -1,0 +1,72 @@
+
+
+<div class="contenido clearfix">
+
+	<h1>Asignar Silla</h1>
+	<p>Por favor seleccione las sillas que se le van a asignar al
+		cliente.</p>
+	<div class="cinema clearfix">
+
+		<div class="sideA">
+			<div ng-repeat="row in showtime.seats">
+				<div ng-repeat="seat in row | filter:columnBetween(0,3)">
+					<input type="checkbox" id="{{seat.row}},{{seat.column}}"
+						ng-disabled="isBooked(seat.row,seat.column)"
+						ng-checked="seat.checked"
+						 ng-click="selectSeat(seat.row, seat.column)" ng-dblclick="selectSeat(seat.row, seat.column)"  /> <label
+						for="{{seat.row}},{{seat.column}}"><span></span></label>
+				</div>
+			</div>
+		</div>
+
+		<div class="sideB">
+			<div ng-repeat="row in showtime.seats">
+				<div ng-repeat="seat in row | filter:columnBetween(7,18)">
+					<input type="checkbox" id="{{seat.row}},{{seat.column}}"
+						ng-disabled="isBooked(seat.row,seat.column)"
+						ng-checked="seat.checked" ng-click="selectSeat(seat.row, seat.column)" ng-dblclick="selectSeat(seat.row, seat.column)" /> <label
+						for="{{seat.row}},{{seat.column}}"><span></span></label>
+				</div>
+			</div>
+		</div>
+
+		<div class="sideC">
+			<div ng-repeat="row in showtime.seats">
+				<div ng-repeat="seat in row | filter:columnBetween(22,25)">
+					<input type="checkbox" id="{{seat.row}},{{seat.column}}"
+						ng-disabled="isBooked(seat.row,seat.column)"
+						ng-checked="seat.checked"
+						 ng-click="selectSeat(seat.row, seat.column)" ng-dblclick="selectSeat(seat.row, seat.column)"  /> <label
+						for="{{seat.row}},{{seat.column}}"><span></span></label>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+
+	<div class="screen clearfix">Pantalla</div>
+
+
+	<div class="conventions clearfix">
+
+		<input type="checkbox" disabled /> <label><span></span> No
+			disponible</label> <input type="checkbox" /> <label><span></span>
+			Disponible</label> <input type="checkbox" checked /> <label><span></span>
+			Seleccionada</label>
+
+
+
+
+	</div>
+
+	<div class="button-container clearfix">
+
+		<button type="button" class="btn btn-danger" onclick="history.back()">Cancelar</button>
+		<button type="button" class="btn btn-success" ng-click="submitSeats()">Continuar</button>
+
+
+	</div>
+
+
+</div>

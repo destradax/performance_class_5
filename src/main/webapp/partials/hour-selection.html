@@ -1,0 +1,58 @@
+
+<div class="contenido">
+	<h1>Selecci&oacute;n de Horario</h1>
+	<p>Seleccione el horario y la cantidad de sillas</p>
+
+	<div class="movie-selected clearfix">
+		<image ng-src="img/movies/{{movie.id}}.jpg">
+		<p>
+			<strong>Título original:</strong> {{movie.name}}
+		</p>
+		<p>
+			<strong>Fecha de estreno:</strong> {{movie.releaseDateString}}
+		</p>
+		<p>
+			<strong>Clasificaci&oacute;n:</strong> {{movie.restrictions}}
+		</p>
+		<p>
+			<strong>Sinopsis:</strong> {{movie.description}}
+		</p>
+	</div>
+	<form name="form">
+
+		<div class="movies clearfix">
+			<div class="col1">
+
+				<h2>Funci&oacute;n</h2>
+
+				<select id="showTime" name="showTime" ng-model="selection.id"
+					size="{{movie.showTimes.length + 1}}">
+					<option value="{{showTime.id}}"
+						ng-repeat="showTime in movie.showTimes">
+						{{showTime.timeInMilliseconds | date:'yyyy-MM-dd HH:mm'}}
+						
+						</option>
+				</select>
+					{{showTimeError}}
+			</div>
+			<div class="col2">
+				<h2>Cantidad de sillas</h2>
+				<select name="seats" size="6" ng-model="selection.seats">
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+				</select>
+				{{seatsError}}
+			</div>
+		</div>
+
+
+		<div class="button-container clearfix">
+			<button type="button" class="btn btn-danger" onclick="history.back()">Cancelar</button>
+			<input type="submit" class="btn btn-success"
+				ng-click="selectSeats(selection)" value="Continuar">
+		</div>
+	</form>

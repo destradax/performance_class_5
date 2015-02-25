@@ -1,0 +1,57 @@
+
+<div class="contenido">
+	<h1>Confirmación</h1>
+	<div class="alert alert-success" role="alert">
+		<span ng-if="transaction.bookedSeats.length > 1">
+			Las sillas 
+		</span>
+		<span ng-if="transaction.bookedSeats.length == 1">
+			La silla 
+		</span>
+		<strong ng-repeat="seat in transaction.bookedSeats">
+			Fila:{{seat.row}}-Columna:{{seat.column}}
+			<span ng-if="$index == transaction.bookedSeats.length - 2">
+			 y 
+			</span> 
+			<span ng-if="$index < transaction.bookedSeats.length - 2">
+			 , 
+			</span> 
+		</strong> 
+		
+		<span ng-if="transaction.bookedSeats.length > 1">
+			han sido asignadas correctamente! 
+		</span>
+		<span ng-if="transaction.bookedSeats.length == 1">
+			h sido asignada correctamente!
+		</span>
+		
+	</div>
+
+	<div class="movie-selected clearfix">
+		<image ng-src="img/movies/{{movie.id}}.jpg">
+		<p>
+			<strong>Título original:</strong> {{movie.name}}
+		</p>
+		<p>
+			<strong>Fecha de estreno:</strong> {{movie.releaseDateString}}
+		</p>
+		<p>
+			<strong>Clasificaci&oacute;n:</strong> {{movie.restrictions}}
+		</p>
+		<p>
+			<strong>Sinopsis:</strong> {{movie.description}}
+		</p>
+	</div>
+
+
+
+
+	<div class="button-container clearfix">
+
+		<button type="button" class="btn btn-success" ng-click="endTransaction()">Finalizar</button>
+
+
+	</div>
+
+
+</div>

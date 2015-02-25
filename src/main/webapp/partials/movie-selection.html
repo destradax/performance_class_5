@@ -1,0 +1,19 @@
+
+<div class="searchbar clearfix">
+	<div class="container">
+		<label>Buscar Pel&iacute;cula</label> <input type="text"
+			class="searchfield" ng-model="query.name"> <input
+			type="image" src="img/searchbtn.png" class="searchbtn">
+	</div>
+</div>
+
+<div class="contenido">
+	<h1>Selecci&oacute;n de Pel&iacute;cula</h1>
+	<p>Seleccione la pel&iacute;cula</p>
+
+	<div class="movies clearfix">
+		<a href="#movies/{{movie.id}}" ng-repeat="movie in movies | filter:query:strict">
+			<img ng-src="img/movies/{{movie.id}}.jpg"/>
+		</a>
+	</div>
+</div>

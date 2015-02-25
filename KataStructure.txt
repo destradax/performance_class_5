@@ -1,0 +1,40 @@
+Esta Kata es solamente una sugerencia en la manera de abordar el problema de recomendación de sillas usando TDD.
+
+Es prerequisito tener conocimientos y práctica desarrollando pruebas unitarias con JUnit.
+
+
+A continuación se enumeran los pasos en los que se sugiere abordar el problema. 
+La idea es desarrollar primero la prueba unitaria para el caso puntual, luego el desarrollo de ese paso, tal como sugiere TDD.
+
+Se recomienda utilizar la clase CinemaTemplateGeneratorUtil para crear escenarios de pruebas. Ya existen una serie de métodos que devuelven salas de cine con ciertas características, pero se puede extender la clase para añadir más escenarios. POR FAVOR NO MODIFICAR LOS ESCENARIOS EXISTENTES.
+
+Recuerda ir paso a paso en el desarrollo, resolver una condición a la vez, no todas al mismo tiempo.
+
+
+Paso 1. Si todo el escenario está lleno, no se recomienda ninguna silla. Verificar que no se retornan sillas del pasillo.
+Paso 2. Si todo el escenario está vacío, se devuelven las sillas con "100" como puntaje de preferencia.
+Paso 3. Si el escenario no está lleno, pero no hay suficiente sillas vacias para el número del sillas pedidas por el comprador, no se debe volver niguna silla.
+Paso 4. Si algunas sillas están ocupadas, encontrar las sillas consecutivas con mayor puntaje.
+Paso 5. Si las sillas consecutivas están "bloqueadas" por el pasillo, deben encontrarse otras sillas.
+Paso 6. Si no existen sillas consecutivas suficientes, se deben aplicar los criterios de la historia de usuario para encontrar 2 segmentos válidos.
+Paso 7. Si no existen sillas consecutivas en segmentos, se deben devolver aquellas sillas independientes que sobren y tengan más puntaje.
+
+
+Recordar:
+- Cada caso de prueba debe tener claro su objetivo, debe probar una condición puntual, y debe verificar el resultado.
+- Mantener el algoritmo simple y legible.
+- Verificar los resultados con la aplicación corriendo. Las películas en cartelera tienen los siguientes escenarios para todas sus funciones:
+
+El Violinista del Diablo -> Escenario vacio
+El Libro de la vida -> Escenario lleno
+Donde se Esconde el diablo-> Dos Libres Consecutivas
+Primicia Mortal -> 3 libres consecutivas.
+Relatos Salvajes -> 4 Libres Consecutivas
+Éxodo, Dioses y Reyes -> 6 Libres consecutivas
+Pancho, El perro Millonario -> 2 Aleatorias
+Petecuy -> 4 Aleatorias
+Stockholm -> 5 aleatorios
+Los Juegos del Hambre: 6 Aleatorios
+
+
+
