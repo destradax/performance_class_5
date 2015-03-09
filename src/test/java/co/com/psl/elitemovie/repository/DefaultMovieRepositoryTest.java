@@ -1,12 +1,20 @@
 package co.com.psl.elitemovie.repository;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.Collection;
 
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import co.com.psl.elitemovie.model.Movie;
+
+import com.google.common.collect.Lists;
 
 public class DefaultMovieRepositoryTest {
 
@@ -22,35 +30,40 @@ public class DefaultMovieRepositoryTest {
 	private static final String MOVIE_2_RESTRICTIONS = "restrictions2";
 	private static final String MOVIE_2_DESCRIPTION = "description2";
 
+	@Mock
+	private PersistenceService persistenceService;
+
+	@InjectMocks
+	DefaultMovieRepository repository = new DefaultMovieRepository();
+
+	@Before
+	public void init() {
+		MockitoAnnotations.initMocks(this);
+	}
+
 	@Test
 	public void testAddAndFind() {
-		DefaultMovieRepository repository = new DefaultMovieRepository();
-
-		Movie movie = new Movie(MOVIE_1_ID, MOVIE_1_NAME, MOVIE_1_RELEASE_DATE,
+		Movie movie = new Movie(MOVIE_1_NAME, MOVIE_1_RELEASE_DATE,
 				MOVIE_1_RESTRICTIONS, MOVIE_1_DESCRIPTION);
-
+		movie.setId(MOVIE_1_ID);
 		repository.add(movie);
-
-		Movie savedMovie = repository.findById(MOVIE_1_ID);
-
-		assertEquals(MOVIE_1_ID, savedMovie.getId());
-		assertEquals(MOVIE_1_NAME, savedMovie.getName());
-		assertEquals(MOVIE_1_RELEASE_DATE, savedMovie.getReleaseDateString());
-		assertEquals(MOVIE_1_RESTRICTIONS, savedMovie.getRestrictions());
-		assertEquals(MOVIE_1_DESCRIPTION, savedMovie.getDescription());
+		verify(persistenceService).save(movie);
 	}
 
 	@Test
 	public void testFindById() {
-		DefaultMovieRepository repository = new DefaultMovieRepository();
 
-		Movie movie1 = new Movie(MOVIE_1_ID, MOVIE_1_NAME,
-				MOVIE_1_RELEASE_DATE, MOVIE_1_RESTRICTIONS, MOVIE_1_DESCRIPTION);
-		Movie movie2 = new Movie(MOVIE_2_ID, MOVIE_2_NAME,
-				MOVIE_2_RELEASE_DATE, MOVIE_2_RESTRICTIONS, MOVIE_2_DESCRIPTION);
+		Movie movie1 = new Movie(MOVIE_1_NAME, MOVIE_1_RELEASE_DATE,
+				MOVIE_1_RESTRICTIONS, MOVIE_1_DESCRIPTION);
+		movie1.setId(MOVIE_1_ID);
+		Movie movie2 = new Movie(MOVIE_2_NAME, MOVIE_2_RELEASE_DATE,
+				MOVIE_2_RESTRICTIONS, MOVIE_2_DESCRIPTION);
+		movie2.setId(MOVIE_2_ID);
 
-		repository.add(movie1);
-		repository.add(movie2);
+		when(persistenceService.findById(Movie.class, MOVIE_1_ID)).thenReturn(
+				movie1);
+		when(persistenceService.findById(Movie.class, MOVIE_2_ID)).thenReturn(
+				movie2);
 
 		Movie savedMovie1 = repository.findById(MOVIE_1_ID);
 		assertEquals(MOVIE_1_ID, savedMovie1.getId());
@@ -70,15 +83,17 @@ public class DefaultMovieRepositoryTest {
 
 	@Test
 	public void testFindAll() {
-		DefaultMovieRepository repository = new DefaultMovieRepository();
+		Movie movie1 = new Movie(MOVIE_1_NAME, MOVIE_1_RELEASE_DATE,
+				MOVIE_1_RESTRICTIONS, MOVIE_1_DESCRIPTION);
+		movie1.setId(MOVIE_1_ID);
+		Movie movie2 = new Movie(MOVIE_2_NAME, MOVIE_2_RELEASE_DATE,
+				MOVIE_2_RESTRICTIONS, MOVIE_2_DESCRIPTION);
+		movie2.setId(MOVIE_2_ID);
 
-		Movie movie1 = new Movie(MOVIE_1_ID, MOVIE_1_NAME,
-				MOVIE_1_RELEASE_DATE, MOVIE_1_RESTRICTIONS, MOVIE_1_DESCRIPTION);
-		Movie movie2 = new Movie(MOVIE_2_ID, MOVIE_2_NAME,
-				MOVIE_2_RELEASE_DATE, MOVIE_2_RESTRICTIONS, MOVIE_2_DESCRIPTION);
-
-		repository.add(movie1);
-		repository.add(movie2);
+		when(
+				persistenceService.executeQuery(Movie.class,
+						"SELECT m FROM Movie m")).thenReturn(
+				Lists.newArrayList(movie1, movie2));
 
 		Collection<Movie> movies = repository.findAll();
 		assertEquals(2, movies.size());

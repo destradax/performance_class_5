@@ -3,16 +3,39 @@ package co.com.psl.elitemovie.model;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "assignment_transaction")
 public class SeatAssignmentTransaction {
 
+	@Id
+	@SequenceGenerator(initialValue = 1, sequenceName = "db_seat_assignment_transaction_sequence", name = "seatAssignmentTransactionSequence", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seatAssignmentTransactionSequence")
 	private int id;
 
+	@Column(name = "assignment_transaction_date")
 	private Date date;
 
-	private int showTimeId;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "showtime_id", nullable = true)
+	private ShowTime showTime;
 
-	private int movieId;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "movie_id", nullable = true)
+	private Movie movie;
 
+	@OneToMany(mappedBy = "bookedOnTransaction", fetch = FetchType.EAGER)
 	private List<Seat> bookedSeats;
 
 	public int getId() {
@@ -31,28 +54,28 @@ public class SeatAssignmentTransaction {
 		this.date = date;
 	}
 
-	public int getShowTimeId() {
-		return showTimeId;
-	}
-
-	public void setShowTimeId(int showTimeId) {
-		this.showTimeId = showTimeId;
-	}
-
-	public int getMovieId() {
-		return movieId;
-	}
-
-	public void setMovieId(int movieId) {
-		this.movieId = movieId;
-	}
-
 	public List<Seat> getBookedSeats() {
 		return bookedSeats;
 	}
 
 	public void setBookedSeats(List<Seat> bookedSeats) {
 		this.bookedSeats = bookedSeats;
+	}
+
+	public ShowTime getShowTime() {
+		return showTime;
+	}
+
+	public void setShowTime(ShowTime showTime) {
+		this.showTime = showTime;
+	}
+
+	public Movie getMovie() {
+		return movie;
+	}
+
+	public void setMovie(Movie movie) {
+		this.movie = movie;
 	}
 
 }

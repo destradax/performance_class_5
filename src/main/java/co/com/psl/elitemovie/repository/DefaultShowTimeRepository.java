@@ -1,36 +1,42 @@
 package co.com.psl.elitemovie.repository;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+import co.com.psl.elitemovie.model.Seat;
 import co.com.psl.elitemovie.model.ShowTime;
 
-@Component
+@Repository
+@Transactional
 public class DefaultShowTimeRepository implements ShowTimeRepository {
 
-	private Map<Integer, ShowTime> showTimesById;
+	@Autowired
+	private PersistenceService persistenceService;
 
 	@Override
 	public ShowTime findById(int id) {
-		return showTimesById.get(id);
+		return persistenceService.findById(ShowTime.class, id);
 	}
 
 	@Override
-	public void add(ShowTime showTime) {
-		if (showTimesById == null) {
-			showTimesById = new HashMap<Integer, ShowTime>();
+	public void add(ShowTime showTime, List<Seat> seatList) {
+		showTime.setSeatList(null);
+		persistenceService.save(showTime);
+		for (Seat seat : seatList) {
+			seat.setBookedOnTransaction(null);
+			seat.setShowTime(showTime);
+			persistenceService.save(seat);
 		}
-		showTimesById.put(showTime.getId(), showTime);
+		showTime.setSeatList(seatList);
+		persistenceService.update(showTime);
 	}
 
 	@Override
 	public void update(ShowTime showTime) {
-		if (showTimesById == null) {
-			showTimesById = new HashMap<Integer, ShowTime>();
-		}
-		showTimesById.put(showTime.getId(), showTime);
+		persistenceService.update(showTime);
 	}
 
 }

@@ -19,6 +19,7 @@ import co.com.psl.elitemovie.model.Seat;
 import co.com.psl.elitemovie.model.SeatAssignmentTransaction;
 import co.com.psl.elitemovie.model.ShowTime;
 import co.com.psl.elitemovie.repository.SeatAssignmentTransactionRepository;
+import co.com.psl.elitemovie.repository.SeatRepository;
 import co.com.psl.elitemovie.repository.ShowTimeRepository;
 
 @RestController
@@ -31,6 +32,9 @@ public class SeatAssignmentTransactionController {
 	@Autowired
 	private ShowTimeRepository showTimeRepository;
 
+	@Autowired
+	private SeatRepository seatRepository;
+
 	@RequestMapping("/transaction/{transactionId}")
 	public SeatAssignmentTransactionDto findById(@PathVariable int transactionId) {
 		SeatAssignmentTransaction transaction = seatAssignmentTransactionRepository
@@ -42,6 +46,7 @@ public class SeatAssignmentTransactionController {
 			transactionDto.addBookedSeat(DtoTransformer.toDto(seat,
 					SeatDto.class));
 		}
+		transactionDto.setMovieId(transaction.getMovie().getId());
 		return transactionDto;
 	}
 
@@ -51,7 +56,7 @@ public class SeatAssignmentTransactionController {
 		ShowTime showTime = showTimeRepository.findById(showTimeId);
 		List<Seat> bookedSeats = new ArrayList<Seat>();
 		for (SeatSelectionRequestDto dto : request) {
-			Seat seat = showTime.getSeats()[dto.getRow()][dto.getColumn()];
+			Seat seat = showTime.getSeatsArray()[dto.getRow()][dto.getColumn()];
 			if (seat.isBooked() == false) {
 				seat.setBooked(true);
 				bookedSeats.add(seat);
@@ -59,16 +64,19 @@ public class SeatAssignmentTransactionController {
 				throw new RuntimeException("The seat was already booked");
 			}
 		}
-		showTimeRepository.update(showTime);
 
 		SeatAssignmentTransaction transaction = new SeatAssignmentTransaction();
 		transaction.setDate(Calendar.getInstance().getTime());
 		transaction.setBookedSeats(bookedSeats);
-		transaction.setId(seatAssignmentTransactionRepository.getNextId());
-		transaction.setMovieId(showTime.getMovieId());
-		transaction.setShowTimeId(showTimeId);
+		transaction.setMovie(showTime.getMovie());
+		transaction.setShowTime(showTime);
 
 		seatAssignmentTransactionRepository.add(transaction);
+
+		for (Seat seat : bookedSeats) {
+			seat.setBookedOnTransaction(transaction);
+			seatRepository.update(seat);
+		}
 
 		return transaction.getId();
 	}

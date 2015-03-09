@@ -22,11 +22,12 @@ public class ShowTimeController {
 	@RequestMapping("/showtime/{showTimeId}")
 	public ShowTimeDto findById(@PathVariable int showTimeId) {
 		ShowTime showTime = showTimeRepository.findById(showTimeId);
+		showTime.getSeatsArray();
 		ShowTimeDto showTimeDto = DtoTransformer.toDto(showTime,
 				ShowTimeDto.class);
 		showTimeDto.setTimeInMilliseconds(showTime.getDate().getTime());
 		showTimeDto.setSeats(null);
-		for (Seat[] row : showTime.getSeats()) {
+		for (Seat[] row : showTime.getSeatsArray()) {
 			for (Seat seat : row) {
 				showTimeDto.addSeat(DtoTransformer.toDto(seat, SeatDto.class));
 			}

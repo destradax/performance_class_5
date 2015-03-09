@@ -1,11 +1,18 @@
 package co.com.psl.elitemovie.repository;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.Calendar;
 import java.util.Date;
 
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import co.com.psl.elitemovie.model.ShowTime;
 
@@ -19,28 +26,45 @@ public class DefaultShowTimeRepositoryTest {
 	private static final Date SHOWTIME_2_DATE = Calendar.getInstance()
 			.getTime();
 
+	@Mock
+	private PersistenceService persistenceService;
+
+	@InjectMocks
+	DefaultShowTimeRepository repository = new DefaultShowTimeRepository();
+
+	@Before
+	public void init() {
+		MockitoAnnotations.initMocks(this);
+	}
+
 	@Test
 	public void testAddAndFind() {
-		DefaultShowTimeRepository repository = new DefaultShowTimeRepository();
 
-		ShowTime showTime = new ShowTime(SHOWTIME_1_ID, SHOWTIME_1_DATE);
-		repository.add(showTime);
+		ShowTime showTime = new ShowTime(SHOWTIME_1_DATE);
+		showTime.setId(1);
+		when(persistenceService.findById(ShowTime.class, SHOWTIME_1_ID))
+				.thenReturn(showTime);
 
 		ShowTime savedShowTime = repository.findById(SHOWTIME_1_ID);
 
 		assertEquals(SHOWTIME_1_ID, savedShowTime.getId());
 		assertEquals(SHOWTIME_1_DATE, savedShowTime.getDate());
+
+		verify(persistenceService).findById(ShowTime.class, SHOWTIME_1_ID);
 	}
 
 	@Test
 	public void testFindById() {
-		DefaultShowTimeRepository repository = new DefaultShowTimeRepository();
 
-		ShowTime showTime1 = new ShowTime(SHOWTIME_1_ID, SHOWTIME_1_DATE);
-		ShowTime showTime2 = new ShowTime(SHOWTIME_2_ID, SHOWTIME_2_DATE);
+		ShowTime showTime1 = new ShowTime(SHOWTIME_1_DATE);
+		showTime1.setId(SHOWTIME_1_ID);
+		ShowTime showTime2 = new ShowTime(SHOWTIME_2_DATE);
+		showTime2.setId(SHOWTIME_2_ID);
 
-		repository.add(showTime1);
-		repository.add(showTime2);
+		Mockito.when(persistenceService.findById(ShowTime.class, SHOWTIME_1_ID))
+				.thenReturn(showTime1);
+		Mockito.when(persistenceService.findById(ShowTime.class, SHOWTIME_2_ID))
+				.thenReturn(showTime2);
 
 		ShowTime savedShowTime1 = repository.findById(SHOWTIME_1_ID);
 		assertEquals(SHOWTIME_1_ID, savedShowTime1.getId());
@@ -51,25 +75,4 @@ public class DefaultShowTimeRepositoryTest {
 		assertEquals(SHOWTIME_2_DATE, savedShowTime2.getDate());
 	}
 
-	@Test
-	public void testUpdate() {
-		DefaultShowTimeRepository repository = new DefaultShowTimeRepository();
-
-		ShowTime showTime1 = new ShowTime(SHOWTIME_1_ID, SHOWTIME_1_DATE);
-		repository.add(showTime1);
-
-		ShowTime savedShowTime = repository.findById(SHOWTIME_1_ID);
-
-		Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.DAY_OF_MONTH, 1);
-		Date newDate = calendar.getTime();
-
-		savedShowTime.setDate(newDate);
-
-		repository.update(savedShowTime);
-
-		ShowTime updatedShowTime1 = repository.findById(SHOWTIME_1_ID);
-		assertEquals(SHOWTIME_1_ID, updatedShowTime1.getId());
-		assertEquals(newDate, updatedShowTime1.getDate());
-	}
 }

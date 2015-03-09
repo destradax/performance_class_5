@@ -60,11 +60,12 @@ public class MovieControllerTest {
 	@Test
 	public void testFindAll() {
 		Collection<Movie> movies = new ArrayList<Movie>();
-		Movie movie1 = new Movie(MOVIE_1_ID, MOVIE_1_NAME,
-				MOVIE_1_RELEASE_DATE, MOVIE_1_RESTRICTIONS, MOVIE_1_DESCRIPTION);
-		Movie movie2 = new Movie(MOVIE_2_ID, MOVIE_2_NAME,
-				MOVIE_2_RELEASE_DATE, MOVIE_2_RESTRICTIONS, MOVIE_2_DESCRIPTION);
-
+		Movie movie1 = new Movie(MOVIE_1_NAME, MOVIE_1_RELEASE_DATE,
+				MOVIE_1_RESTRICTIONS, MOVIE_1_DESCRIPTION);
+		movie1.setId(MOVIE_1_ID);
+		Movie movie2 = new Movie(MOVIE_2_NAME, MOVIE_2_RELEASE_DATE,
+				MOVIE_2_RESTRICTIONS, MOVIE_2_DESCRIPTION);
+		movie2.setId(MOVIE_2_ID);
 		movies.add(movie1);
 		movies.add(movie2);
 
@@ -90,8 +91,9 @@ public class MovieControllerTest {
 
 	@Test
 	public void testFindByIdWithNoShowTimes() {
-		Movie movie1 = new Movie(MOVIE_1_ID, MOVIE_1_NAME,
-				MOVIE_1_RELEASE_DATE, MOVIE_1_RESTRICTIONS, MOVIE_1_DESCRIPTION);
+		Movie movie1 = new Movie(MOVIE_1_NAME, MOVIE_1_RELEASE_DATE,
+				MOVIE_1_RESTRICTIONS, MOVIE_1_DESCRIPTION);
+		movie1.setId(MOVIE_1_ID);
 		when(movieRepository.findById(MOVIE_1_ID)).thenReturn(movie1);
 
 		MovieDto movieDto = movieController.findById(MOVIE_1_ID);
@@ -108,12 +110,12 @@ public class MovieControllerTest {
 
 	@Test
 	public void testFindByIdWithPastShowTimes() throws ParseException {
-		Movie movie1 = new Movie(MOVIE_1_ID, MOVIE_1_NAME,
-				MOVIE_1_RELEASE_DATE, MOVIE_1_RESTRICTIONS, MOVIE_1_DESCRIPTION);
-
-		ShowTime showTime1 = new ShowTime(SHOWTIME_1_ID,
+		Movie movie1 = new Movie(MOVIE_1_NAME, MOVIE_1_RELEASE_DATE,
+				MOVIE_1_RESTRICTIONS, MOVIE_1_DESCRIPTION);
+		movie1.setId(MOVIE_1_ID);
+		ShowTime showTime1 = new ShowTime(
 				simpleDateFormat.parse("05/01/1980 18:00")); // PAST EVENT 1
-		ShowTime showTime2 = new ShowTime(SHOWTIME_2_ID,
+		ShowTime showTime2 = new ShowTime(
 				simpleDateFormat.parse("05/01/1980 20:00")); // PAST EVENT 2
 
 		movie1.addShowTime(showTime1);
@@ -136,18 +138,17 @@ public class MovieControllerTest {
 
 	@Test
 	public void testFindByIdWithFutureShowTimes() throws ParseException {
-		Movie movie1 = new Movie(MOVIE_1_ID, MOVIE_1_NAME,
-				MOVIE_1_RELEASE_DATE, MOVIE_1_RESTRICTIONS, MOVIE_1_DESCRIPTION);
-
+		Movie movie1 = new Movie(MOVIE_1_NAME, MOVIE_1_RELEASE_DATE,
+				MOVIE_1_RESTRICTIONS, MOVIE_1_DESCRIPTION);
+		movie1.setId(MOVIE_1_ID);
 		Date showTime1Date = simpleDateFormat.parse("05/01/2016 18:00");
-		ShowTime showTime1 = new ShowTime(SHOWTIME_1_ID, showTime1Date); // FUTURE
-																			// EVENT
-																			// 1
-
+		ShowTime showTime1 = new ShowTime(showTime1Date); // FUTURE
+															// EVENT
+															// 1
+		showTime1.setId(SHOWTIME_1_ID);
 		Date showTime2Date = simpleDateFormat.parse("05/01/2016 18:00");
-		ShowTime showTime2 = new ShowTime(SHOWTIME_2_ID, showTime2Date); // FUTURE
-																			// EVENT
-																			// 2
+		ShowTime showTime2 = new ShowTime(showTime2Date);
+		showTime2.setId(SHOWTIME_2_ID);
 
 		movie1.addShowTime(showTime1);
 		movie1.addShowTime(showTime2);

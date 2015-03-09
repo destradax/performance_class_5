@@ -1,12 +1,16 @@
 package co.com.psl.elitemovie.repository;
 
-import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.verify;
 
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import co.com.psl.elitemovie.model.Seat;
 import co.com.psl.elitemovie.model.SeatAssignmentTransaction;
@@ -14,34 +18,27 @@ import co.com.psl.elitemovie.model.SeatAssignmentTransaction;
 public class DefaultSeatAssignmentTransactionRepositoryTest {
 
 	private static final Date CURRENT_DATE = Calendar.getInstance().getTime();
-	private static final int TRANSACTION_1_MOVIE_ID = 3;
-	private static final int TRANSACTION_1_SHOWTIME_ID = 2;
+
+	@Mock
+	private PersistenceService persistenceService;
+
+	@InjectMocks
+	private DefaultSeatAssignmentTransactionRepository repository = new DefaultSeatAssignmentTransactionRepository();
+
+	@Before
+	public void init() {
+		MockitoAnnotations.initMocks(this);
+	}
 
 	@Test
 	public void testAddAndFind() {
-		DefaultSeatAssignmentTransactionRepository repository = new DefaultSeatAssignmentTransactionRepository();
-		repository.init();
 
 		SeatAssignmentTransaction transaction = new SeatAssignmentTransaction();
-
-		int nextId = repository.getNextId();
-		assertEquals(1, nextId);
-		transaction.setId(nextId);
+		transaction.setId(1);
 		transaction.setBookedSeats(Collections.<Seat> emptyList());
 		transaction.setDate(CURRENT_DATE);
-		transaction.setMovieId(TRANSACTION_1_MOVIE_ID);
-		transaction.setShowTimeId(TRANSACTION_1_SHOWTIME_ID);
-
 		repository.add(transaction);
-
-		SeatAssignmentTransaction savedTransaction = repository
-				.findById(nextId);
-
-		assertEquals(1, savedTransaction.getId());
-		assertEquals(CURRENT_DATE, savedTransaction.getDate());
-		assertEquals(TRANSACTION_1_MOVIE_ID, savedTransaction.getMovieId());
-		assertEquals(TRANSACTION_1_SHOWTIME_ID,
-				savedTransaction.getShowTimeId());
+		verify(persistenceService).save(transaction);
 	}
 
 }

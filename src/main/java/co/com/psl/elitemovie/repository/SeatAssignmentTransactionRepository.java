@@ -7,6 +7,4 @@ public interface SeatAssignmentTransactionRepository {
 	SeatAssignmentTransaction findById(int id);
 
 	void add(SeatAssignmentTransaction showTime);
-
-	int getNextId();
 }
