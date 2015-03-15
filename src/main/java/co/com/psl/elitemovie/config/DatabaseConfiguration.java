@@ -85,7 +85,6 @@ public class DatabaseConfiguration implements EnvironmentAware {
 		Properties properties = new Properties();
 		properties.setProperty("hibernate.dialect",
 				"org.hibernate.dialect.PostgreSQLDialect");
-		// properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
 		properties.setProperty("hibernate.show_sql", "true");
 		log.info("hibernate properties: " + properties.toString());
 		return properties;

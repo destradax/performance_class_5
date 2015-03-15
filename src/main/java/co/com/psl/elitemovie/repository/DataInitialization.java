@@ -8,13 +8,17 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 import co.com.psl.elitemovie.model.Movie;
 import co.com.psl.elitemovie.model.Seat;
 import co.com.psl.elitemovie.model.ShowTime;
 
-@Component
+/**
+ * This class is a "replacement" of the initial scripts. Only works with the @PostConstruct
+ * and @Component annotations enabled. Take care of allowing hbm2ddl option
+ * configured as well.
+ */
+// @Component
 public class DataInitialization {
 
 	@Autowired

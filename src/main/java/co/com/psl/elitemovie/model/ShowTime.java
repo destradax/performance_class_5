@@ -34,7 +34,7 @@ public class ShowTime {
 	private Seat[][] seatsArray;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "movie_id", nullable = true)
+	@JoinColumn(name = "movie_id")
 	private Movie movie;
 
 	@Column(name = "showtime_date")

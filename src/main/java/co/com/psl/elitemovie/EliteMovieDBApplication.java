@@ -11,10 +11,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan
-public class EliteMovieApplication {
+public class EliteMovieDBApplication {
 
 	public static void main(String[] args){
-        ApplicationContext ctx = SpringApplication.run(EliteMovieApplication.class, args);
+        ApplicationContext ctx = SpringApplication.run(EliteMovieDBApplication.class, args);
         System.out.println("Let's inspect the beans provided by Spring Boot:");
 
         String[] beanNames = ctx.getBeanDefinitionNames();

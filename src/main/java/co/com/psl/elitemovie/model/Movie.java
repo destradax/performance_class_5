@@ -1,7 +1,7 @@
 package co.com.psl.elitemovie.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,7 +26,7 @@ public class Movie {
 	private String name;
 
 	@OneToMany(mappedBy = "movie", fetch = FetchType.EAGER)
-	private List<ShowTime> showTimes;
+	private Set<ShowTime> showTimes;
 
 	@Column(length = 4000)
 	private String releaseDateString;
@@ -45,11 +45,11 @@ public class Movie {
 		this.name = name;
 	}
 
-	public List<ShowTime> getShowTimes() {
+	public Set<ShowTime> getShowTimes() {
 		return showTimes;
 	}
 
-	public void setShowTimes(List<ShowTime> showTimes) {
+	public void setShowTimes(Set<ShowTime> showTimes) {
 		this.showTimes = showTimes;
 	}
 
@@ -75,7 +75,7 @@ public class Movie {
 
 	public void addShowTime(ShowTime showTime) {
 		if (showTimes == null) {
-			showTimes = new ArrayList<ShowTime>();
+			showTimes = new HashSet<ShowTime>();
 		}
 		showTimes.add(showTime);
 	}
