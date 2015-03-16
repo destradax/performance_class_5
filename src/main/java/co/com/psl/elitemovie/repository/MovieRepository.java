@@ -11,14 +11,7 @@ public interface MovieRepository {
 	 */
 	Collection<Movie> findAll();
 
-	/**
-	 * Find a movie by id.
-	 * 
-	 * @param id
-	 *            the id.
-	 * @return the movie.
-	 */
 	Movie findById(int id);
 
-	void add(Movie movie);
+	void save(Movie movie);
 }

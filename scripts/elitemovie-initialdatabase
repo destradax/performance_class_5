@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.3.0
 -- Dumped by pg_dump version 9.3.0
--- Started on 2015-03-15 12:43:12 COT
+-- Started on 2015-03-15 21:08:57 COT
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -14,20 +14,7 @@ SET check_function_bodies = false;
 SET client_min_messages = warning;
 
 --
--- TOC entry 2240 (class 1262 OID 46379)
--- Name: elitemovie; Type: DATABASE; Schema: -; Owner: postgres
---
-
-
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SET check_function_bodies = false;
-SET client_min_messages = warning;
-
---
--- TOC entry 178 (class 3079 OID 12018)
+-- TOC entry 179 (class 3079 OID 12018)
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
 --
 
@@ -35,8 +22,8 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 2243 (class 0 OID 0)
--- Dependencies: 178
+-- TOC entry 2253 (class 0 OID 0)
+-- Dependencies: 179
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
 
@@ -50,7 +37,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- TOC entry 170 (class 1259 OID 46606)
+-- TOC entry 170 (class 1259 OID 46663)
 -- Name: assignment_transaction; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -65,7 +52,23 @@ CREATE TABLE assignment_transaction (
 ALTER TABLE public.assignment_transaction OWNER TO postgres;
 
 --
--- TOC entry 174 (class 1259 OID 46654)
+-- TOC entry 178 (class 1259 OID 46719)
+-- Name: comment; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE comment (
+    id integer NOT NULL,
+    comment text,
+    author character varying(255),
+    parent_comment_id integer,
+    movie_id integer
+);
+
+
+ALTER TABLE public.comment OWNER TO postgres;
+
+--
+-- TOC entry 171 (class 1259 OID 46666)
 -- Name: db_movie_sequence; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -80,7 +83,7 @@ CREATE SEQUENCE db_movie_sequence
 ALTER TABLE public.db_movie_sequence OWNER TO postgres;
 
 --
--- TOC entry 175 (class 1259 OID 46656)
+-- TOC entry 172 (class 1259 OID 46668)
 -- Name: db_seat_assignment_transaction_sequence; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -95,7 +98,7 @@ CREATE SEQUENCE db_seat_assignment_transaction_sequence
 ALTER TABLE public.db_seat_assignment_transaction_sequence OWNER TO postgres;
 
 --
--- TOC entry 176 (class 1259 OID 46658)
+-- TOC entry 173 (class 1259 OID 46670)
 -- Name: db_seat_sequence; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -110,7 +113,7 @@ CREATE SEQUENCE db_seat_sequence
 ALTER TABLE public.db_seat_sequence OWNER TO postgres;
 
 --
--- TOC entry 177 (class 1259 OID 46660)
+-- TOC entry 174 (class 1259 OID 46672)
 -- Name: db_showtime_sequence; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -125,7 +128,7 @@ CREATE SEQUENCE db_showtime_sequence
 ALTER TABLE public.db_showtime_sequence OWNER TO postgres;
 
 --
--- TOC entry 171 (class 1259 OID 46611)
+-- TOC entry 175 (class 1259 OID 46674)
 -- Name: movie; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -141,7 +144,7 @@ CREATE TABLE movie (
 ALTER TABLE public.movie OWNER TO postgres;
 
 --
--- TOC entry 172 (class 1259 OID 46619)
+-- TOC entry 176 (class 1259 OID 46680)
 -- Name: seat; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -160,7 +163,7 @@ CREATE TABLE seat (
 ALTER TABLE public.seat OWNER TO postgres;
 
 --
--- TOC entry 173 (class 1259 OID 46624)
+-- TOC entry 177 (class 1259 OID 46683)
 -- Name: showtime; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -174,7 +177,7 @@ CREATE TABLE showtime (
 ALTER TABLE public.showtime OWNER TO postgres;
 
 --
--- TOC entry 2228 (class 0 OID 46606)
+-- TOC entry 2237 (class 0 OID 46663)
 -- Dependencies: 170
 -- Data for Name: assignment_transaction; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -183,17 +186,25 @@ INSERT INTO assignment_transaction (id, assignment_transaction_date, movie_id, s
 
 
 --
--- TOC entry 2244 (class 0 OID 0)
--- Dependencies: 174
+-- TOC entry 2245 (class 0 OID 46719)
+-- Dependencies: 178
+-- Data for Name: comment; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2254 (class 0 OID 0)
+-- Dependencies: 171
 -- Name: db_movie_sequence; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('db_movie_sequence', 10, true);
+SELECT pg_catalog.setval('db_movie_sequence', 28, true);
 
 
 --
--- TOC entry 2245 (class 0 OID 0)
--- Dependencies: 175
+-- TOC entry 2255 (class 0 OID 0)
+-- Dependencies: 172
 -- Name: db_seat_assignment_transaction_sequence; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -201,8 +212,8 @@ SELECT pg_catalog.setval('db_seat_assignment_transaction_sequence', 1, true);
 
 
 --
--- TOC entry 2246 (class 0 OID 0)
--- Dependencies: 176
+-- TOC entry 2256 (class 0 OID 0)
+-- Dependencies: 173
 -- Name: db_seat_sequence; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -210,8 +221,8 @@ SELECT pg_catalog.setval('db_seat_sequence', 7800, true);
 
 
 --
--- TOC entry 2247 (class 0 OID 0)
--- Dependencies: 177
+-- TOC entry 2257 (class 0 OID 0)
+-- Dependencies: 174
 -- Name: db_showtime_sequence; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -219,8 +230,8 @@ SELECT pg_catalog.setval('db_showtime_sequence', 30, true);
 
 
 --
--- TOC entry 2229 (class 0 OID 46611)
--- Dependencies: 171
+-- TOC entry 2242 (class 0 OID 46674)
+-- Dependencies: 175
 -- Data for Name: movie; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -237,8 +248,8 @@ INSERT INTO movie (id, description, name, releasedatestring, restrictions) VALUE
 
 
 --
--- TOC entry 2230 (class 0 OID 46619)
--- Dependencies: 172
+-- TOC entry 2243 (class 0 OID 46680)
+-- Dependencies: 176
 -- Data for Name: seat; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -8045,8 +8056,8 @@ INSERT INTO seat (id, seat_column, is_aisle, is_booked, preference_points, "row"
 
 
 --
--- TOC entry 2231 (class 0 OID 46624)
--- Dependencies: 173
+-- TOC entry 2244 (class 0 OID 46683)
+-- Dependencies: 177
 -- Data for Name: showtime; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -8083,7 +8094,7 @@ INSERT INTO showtime (id, showtime_date, movie_id) VALUES (30, '2016-03-02 18:00
 
 
 --
--- TOC entry 2109 (class 2606 OID 46610)
+-- TOC entry 2114 (class 2606 OID 46687)
 -- Name: assignment_transaction_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -8092,7 +8103,16 @@ ALTER TABLE ONLY assignment_transaction
 
 
 --
--- TOC entry 2111 (class 2606 OID 46618)
+-- TOC entry 2122 (class 2606 OID 46726)
+-- Name: comment_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY comment
+    ADD CONSTRAINT comment_pk PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2116 (class 2606 OID 46689)
 -- Name: movie_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -8101,7 +8121,7 @@ ALTER TABLE ONLY movie
 
 
 --
--- TOC entry 2113 (class 2606 OID 46623)
+-- TOC entry 2118 (class 2606 OID 46691)
 -- Name: seat_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -8110,7 +8130,7 @@ ALTER TABLE ONLY seat
 
 
 --
--- TOC entry 2115 (class 2606 OID 46628)
+-- TOC entry 2120 (class 2606 OID 46693)
 -- Name: showtime_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -8119,7 +8139,7 @@ ALTER TABLE ONLY showtime
 
 
 --
--- TOC entry 2120 (class 2606 OID 46649)
+-- TOC entry 2127 (class 2606 OID 46694)
 -- Name: fk_9lk1lhlnr5xi1hvuyrsntcbw6; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -8128,7 +8148,7 @@ ALTER TABLE ONLY showtime
 
 
 --
--- TOC entry 2116 (class 2606 OID 46629)
+-- TOC entry 2123 (class 2606 OID 46699)
 -- Name: fk_e2typs9axoccpvei211rgmjyr; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -8137,7 +8157,7 @@ ALTER TABLE ONLY assignment_transaction
 
 
 --
--- TOC entry 2119 (class 2606 OID 46644)
+-- TOC entry 2125 (class 2606 OID 46704)
 -- Name: fk_gmhpeox72j8p003kkdurhikmx; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -8146,7 +8166,7 @@ ALTER TABLE ONLY seat
 
 
 --
--- TOC entry 2117 (class 2606 OID 46634)
+-- TOC entry 2124 (class 2606 OID 46709)
 -- Name: fk_jk4f4k08o5b2mohl7gpdpi37; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -8155,7 +8175,7 @@ ALTER TABLE ONLY assignment_transaction
 
 
 --
--- TOC entry 2118 (class 2606 OID 46639)
+-- TOC entry 2126 (class 2606 OID 46714)
 -- Name: fk_m32iylebv0ou12xtv9g91peej; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -8164,8 +8184,26 @@ ALTER TABLE ONLY seat
 
 
 --
--- TOC entry 2242 (class 0 OID 0)
--- Dependencies: 5
+-- TOC entry 2129 (class 2606 OID 46732)
+-- Name: movie_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY comment
+    ADD CONSTRAINT movie_id_fk FOREIGN KEY (movie_id) REFERENCES movie(id);
+
+
+--
+-- TOC entry 2128 (class 2606 OID 46727)
+-- Name: parent_comment_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY comment
+    ADD CONSTRAINT parent_comment_fk FOREIGN KEY (parent_comment_id) REFERENCES comment(id);
+
+
+--
+-- TOC entry 2252 (class 0 OID 0)
+-- Dependencies: 6
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
 --
 
@@ -8175,7 +8213,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2015-03-15 12:43:12 COT
+-- Completed on 2015-03-15 21:08:57 COT
 
 --
 -- PostgreSQL database dump complete

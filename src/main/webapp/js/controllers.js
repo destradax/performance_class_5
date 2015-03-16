@@ -7,10 +7,19 @@ eliteMovieControllers.controller('IndexCtrl', function ($scope, $http) {
 });
 
 eliteMovieControllers.controller('HourSelectionCtrl', function ($scope, $http, $routeParams, $location) {
+
+	$scope.commentAuthor = {};
+	$scope.commentString = {};
+	
 	var movieId = $routeParams.movieId;
 	$http.get('rest/movie/' + movieId).success(function(data) {
 	    $scope.movie = data;
 	  });
+	$http.get('rest/comment/for_movie/' + $routeParams.movieId).success(function(data) {
+	    $scope.comments = data;
+	  });
+	
+	
 	
 	$scope.selectSeats = function(selection){
 		if (selection.id == undefined){
@@ -30,6 +39,36 @@ eliteMovieControllers.controller('HourSelectionCtrl', function ($scope, $http, $
 			
 		}
 	};
+	
+	$scope.saveNewRootComment = function(){
+		var newComment = {};
+		newComment.author = $scope.newRootCommentAuthor; 
+		newComment.comment = $scope.newRootComment; 
+		
+		$http.post("rest/comment/" + $scope.movie.id + "/0", newComment).success(function(data){
+			$http.get('rest/comment/for_movie/' + $scope.movie.id).success(function(data) {
+				$scope.showRootPopup = false;
+				$scope.newRootCommentAuthor = '';
+				$scope.newRootComment = '';
+				$scope.comments = data;
+			});
+		});
+	}
+	
+	$scope.saveNewComment = function(parentCommentId){
+		var newComment = {};
+		newComment.author = $scope.commentAuthor[parentCommentId]; 
+		newComment.comment = $scope.commentString[parentCommentId];
+		
+		$http.post("rest/comment/" + $scope.movie.id + "/" + parentCommentId, newComment).success(function(data){
+			$http.get('rest/comment/for_movie/' + $scope.movie.id).success(function(data) {
+				$scope.showPopup = {};
+				$scope.commentAuthor = {};
+				$scope.commentString = {};
+			    $scope.comments = data;
+			});
+		});
+	}
 });
 
 eliteMovieControllers.controller('SeatSelectionCtrl', function ($scope, $http, $routeParams, $location) {

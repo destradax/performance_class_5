@@ -40,7 +40,7 @@ public class JpaPersistenceService implements PersistenceService {
 
 	@Override
 	public <T> List<T> executeQuery(Class<T> resultClass, String query,
-			String... parameters) {
+			Object... parameters) {
 		TypedQuery<T> typedQuery = entityManager
 				.createQuery(query, resultClass);
 		if (parameters != null) {

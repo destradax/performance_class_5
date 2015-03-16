@@ -115,7 +115,7 @@ public class DataInitialization {
 	private void addToRepositories(Movie movie) {
 		List<ShowTime> showtimes = new ArrayList<ShowTime>(movie.getShowTimes());
 		movie.getShowTimes().clear();
-		movieRepository.add(movie);
+		movieRepository.save(movie);
 		for (ShowTime showTime : showtimes) {
 			showTime.setMovie(movie);
 			movie.addShowTime(showTime);

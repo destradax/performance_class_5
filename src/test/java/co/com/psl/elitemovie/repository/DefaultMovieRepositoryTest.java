@@ -46,7 +46,7 @@ public class DefaultMovieRepositoryTest {
 		Movie movie = new Movie(MOVIE_1_NAME, MOVIE_1_RELEASE_DATE,
 				MOVIE_1_RESTRICTIONS, MOVIE_1_DESCRIPTION);
 		movie.setId(MOVIE_1_ID);
-		repository.add(movie);
+		repository.save(movie);
 		verify(persistenceService).save(movie);
 	}
 

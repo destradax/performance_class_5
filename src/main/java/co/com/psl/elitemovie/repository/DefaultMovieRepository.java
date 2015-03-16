@@ -25,7 +25,7 @@ public class DefaultMovieRepository implements MovieRepository {
 	}
 
 	@Override
-	public void add(Movie movie) {
+	public void save(Movie movie) {
 		persistenceService.save(movie);
 	}
 }

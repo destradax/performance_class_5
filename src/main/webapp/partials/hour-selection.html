@@ -29,11 +29,8 @@
 					size="{{movie.showTimes.length + 1}}">
 					<option value="{{showTime.id}}"
 						ng-repeat="showTime in movie.showTimes">
-						{{showTime.timeInMilliseconds | date:'yyyy-MM-dd HH:mm'}}
-						
-						</option>
-				</select>
-					{{showTimeError}}
+						{{showTime.timeInMilliseconds | date:'yyyy-MM-dd HH:mm'}}</option>
+				</select> {{showTimeError}}
 			</div>
 			<div class="col2">
 				<h2>Cantidad de sillas</h2>
@@ -44,8 +41,7 @@
 					<option value="4">4</option>
 					<option value="5">5</option>
 					<option value="6">6</option>
-				</select>
-				{{seatsError}}
+				</select> {{seatsError}}
 			</div>
 		</div>
 
@@ -55,4 +51,43 @@
 			<input type="submit" class="btn btn-success"
 				ng-click="selectSeats(selection)" value="Continuar">
 		</div>
+
+		<div class="comments-container">
+			<div>
+				Comentarios de la pel&iacute;cula <br>
+				<button class="reply" ng-click="showRootPopup = true">Nuevo
+					Comentario</button>
+				<span ng-show="showRootPopup" class="ng-hide"> User: <input
+					type="text" ng-model="newRootCommentAuthor" />, Comment: <input type="text"
+					ng-model="newRootComment" />,
+					<button class="reply" ng-click="saveNewRootComment();">Guardar</button>
+				</span> <br>
+				<br>
+			</div>
+
+
+			<script type="text/ng-template" id="comment_spot.html">
+  			<div class="comment-level-{{comment.level}}">
+				<span>User: {{comment.author}}</span><br>
+				<span>Comment: {{comment.comment}}</span><br>
+
+				<button class="reply" ng-click="showPopup[comment.id] = true">Responder</button>
+				<span ng-show="showPopup[comment.id]" class="ng-hide"> Autor: <input
+					type="text" name="author" ng-model="commentAuthor[comment.id]" />, Comment: <input type="text"
+					name="comment" ng-model="commentString[comment.id]"/>,
+					<button class="reply" ng-click="saveNewComment(comment.id);">Guardar</button>
+				</span> 				
+
+			</div>
+  			<div ng-if="comment.childrenComments">
+      			<div ng-repeat="comment in comment.childrenComments" ng-include="'comment_spot.html'">
+      			</div>
+  			</div>
+		</script>
+
+			<div class="comment-holder" ng-repeat="comment in comments"
+				ng-include="'comment_spot.html'"></div>
+
+		</div>
+
 	</form>
