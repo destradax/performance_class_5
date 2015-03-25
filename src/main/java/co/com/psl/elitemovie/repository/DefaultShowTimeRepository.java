@@ -39,4 +39,10 @@ public class DefaultShowTimeRepository implements ShowTimeRepository {
 		persistenceService.update(showTime);
 	}
 
+	@Override
+	public List<ShowTime> findAll() {
+		return persistenceService.executeQuery(ShowTime.class,
+				"SELECT showTime FROM ShowTime showTime");
+	}
+
 }

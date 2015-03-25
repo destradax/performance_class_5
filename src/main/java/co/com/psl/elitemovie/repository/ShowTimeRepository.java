@@ -9,6 +9,8 @@ public interface ShowTimeRepository {
 
 	ShowTime findById(int id);
 
+	List<ShowTime> findAll();
+
 	void add(ShowTime showTime, List<Seat> seatList);
 
 	void update(ShowTime showTime);

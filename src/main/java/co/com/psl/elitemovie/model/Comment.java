@@ -87,4 +87,16 @@ public class Comment {
 	public void setMovie(Movie movie) {
 		this.movie = movie;
 	}
+
+	public Comment(String author, String comment, Comment parentComment,
+			Movie movie) {
+		this.author = author;
+		this.comment = comment;
+		this.parentComment = parentComment;
+		this.movie = movie;
+	}
+
+	public Comment() {
+
+	}
 }
