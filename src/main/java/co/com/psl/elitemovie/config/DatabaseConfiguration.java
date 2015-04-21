@@ -67,8 +67,8 @@ public class DatabaseConfiguration implements EnvironmentAware {
 	@Bean
 	public DataSource dataSource() throws URISyntaxException {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setUsername(propertyResolver.getProperty("username"));
-		dataSource.setPassword(propertyResolver.getProperty("password"));
+		dataSource.setUsername("postgres");
+		dataSource.setPassword("footprints");
 		dataSource.setUrl(propertyResolver.getProperty("url"));
 		return dataSource;
 	}
@@ -86,7 +86,9 @@ public class DatabaseConfiguration implements EnvironmentAware {
 		properties.setProperty("hibernate.dialect",
 				"org.hibernate.dialect.PostgreSQLDialect");
 		properties.setProperty("hibernate.show_sql", "true");
+		properties.setProperty("hibernate.hbm2ddl.auto", "update");
 		log.info("hibernate properties: " + properties.toString());
+
 		return properties;
 	}
 
