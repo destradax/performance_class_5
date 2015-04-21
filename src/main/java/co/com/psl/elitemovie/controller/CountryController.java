@@ -17,7 +17,7 @@ import co.com.psl.elitemovie.repository.CountryRepository;
 public class CountryController {
 
 	@Autowired(required = false)
-	private CountryRepository movieRepository;
+	private CountryRepository countryRepository;
 
 	@RequestMapping(value="/country/", method=RequestMethod.GET)
 	public List<CountryDto> findAll() {
