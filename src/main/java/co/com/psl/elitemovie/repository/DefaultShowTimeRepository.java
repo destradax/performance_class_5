@@ -2,6 +2,10 @@ package co.com.psl.elitemovie.repository;
 
 import java.util.List;
 
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Element;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,9 +20,18 @@ public class DefaultShowTimeRepository implements ShowTimeRepository {
 	@Autowired
 	private PersistenceService persistenceService;
 
+	@Autowired
+	private CacheManager cacheManager;
+
 	@Override
 	public ShowTime findById(int id) {
-		return persistenceService.findById(ShowTime.class, id);
+		Cache cache = cacheManager.getCache("showtimes");
+		if (cache.get(id) != null) {
+			return (ShowTime) cache.get(id).getObjectValue();
+		}
+		ShowTime s = persistenceService.findById(ShowTime.class, id);
+		cache.put(new Element(id, s));
+		return s;
 	}
 
 	@Override
@@ -32,6 +45,7 @@ public class DefaultShowTimeRepository implements ShowTimeRepository {
 		}
 		showTime.setSeatList(seatList);
 		persistenceService.update(showTime);
+
 	}
 
 	@Override

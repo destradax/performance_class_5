@@ -73,6 +73,29 @@ public class DatabaseConfiguration implements EnvironmentAware {
 		return dataSource;
 	}
 
+	// /**
+	// * DataSource including connection pooling
+	// */
+	// @Bean
+	// public ComboPooledDataSource dataSource() throws PropertyVetoException {
+	// ComboPooledDataSource cpoDataSource = new ComboPooledDataSource();
+	// cpoDataSource.setUser("postgres");
+	// cpoDataSource.setPassword("footprints");
+	// cpoDataSource.setDriverClass(propertyResolver
+	// .getProperty("driverClassName"));
+	// cpoDataSource.setJdbcUrl(propertyResolver.getProperty("url"));
+	// cpoDataSource.setMinPoolSize(Integer.parseInt(propertyResolver
+	// .getProperty("minPoolSize")));
+	// cpoDataSource.setMaxPoolSize(Integer.parseInt(propertyResolver
+	// .getProperty("maxPoolSize")));
+	// cpoDataSource.setAcquireIncrement(Integer.parseInt(propertyResolver
+	// .getProperty("aquireIncrement")));
+	// cpoDataSource
+	// .setIdleConnectionTestPeriod(Integer.parseInt(propertyResolver
+	// .getProperty("idleConnectionPeriod")));
+	// return cpoDataSource;
+	// }
+
 	@Bean
 	public PlatformTransactionManager transactionManager(
 			EntityManagerFactory emf) {

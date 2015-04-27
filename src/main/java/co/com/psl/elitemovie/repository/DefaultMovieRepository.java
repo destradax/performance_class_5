@@ -21,6 +21,7 @@ public class DefaultMovieRepository implements MovieRepository {
 
 	@Override
 	public Movie findById(int id) {
+
 		return persistenceService.findById(Movie.class, id);
 	}
 

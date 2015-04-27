@@ -1,5 +1,6 @@
 package co.com.psl.elitemovie.model;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,7 +16,12 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "movie")
-public class Movie {
+public class Movie implements Serializable {
+
+	/**
+	 * Serialization id.
+	 */
+	private static final long serialVersionUID = -3637800646391314817L;
 
 	@Id
 	@SequenceGenerator(initialValue = 1, sequenceName = "db_movie_sequence", name = "movieSequence", allocationSize = 1)

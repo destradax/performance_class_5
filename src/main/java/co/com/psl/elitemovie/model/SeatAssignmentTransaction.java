@@ -1,5 +1,6 @@
 package co.com.psl.elitemovie.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +18,12 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "assignment_transaction")
-public class SeatAssignmentTransaction {
+public class SeatAssignmentTransaction implements Serializable {
+
+	/**
+	 * Serialization id.
+	 */
+	private static final long serialVersionUID = 2757113423515971448L;
 
 	@Id
 	@SequenceGenerator(initialValue = 1, sequenceName = "db_seat_assignment_transaction_sequence", name = "seatAssignmentTransactionSequence", allocationSize = 1)

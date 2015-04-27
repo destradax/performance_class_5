@@ -1,5 +1,6 @@
 package co.com.psl.elitemovie.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,7 +21,12 @@ import javax.persistence.Transient;
 
 @Entity
 @Table(name = "showtime")
-public class ShowTime {
+public class ShowTime implements Serializable {
+
+	/**
+	 * Serialization id.
+	 */
+	private static final long serialVersionUID = -8148182743736780137L;
 
 	@Id
 	@SequenceGenerator(initialValue = 1, sequenceName = "db_showtime_sequence", name = "showtimeSequence", allocationSize = 1)

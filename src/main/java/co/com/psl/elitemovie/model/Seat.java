@@ -1,5 +1,7 @@
 package co.com.psl.elitemovie.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,7 +15,12 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "seat")
-public class Seat {
+public class Seat implements Serializable {
+
+	/**
+	 * Serialization id.
+	 */
+	private static final long serialVersionUID = -3516317508653788051L;
 
 	@Id
 	@SequenceGenerator(initialValue = 1, sequenceName = "db_seat_sequence", name = "seatSequence", allocationSize = 1)
