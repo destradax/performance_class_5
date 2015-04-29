@@ -12,11 +12,6 @@ import org.springframework.core.io.ClassPathResource;
 @EnableCaching
 public class CachingConfiguration {
 
-	// @Bean
-	// public CacheManager cacheManager() {
-	// return new ConcurrentMapCacheManager("movies");
-	// }
-
 	@Bean
 	public CacheManager cacheManager() {
 		return new EhCacheCacheManager(ehCacheCacheManager().getObject());

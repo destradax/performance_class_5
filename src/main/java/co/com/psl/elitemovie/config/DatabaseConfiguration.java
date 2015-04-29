@@ -1,6 +1,6 @@
 package co.com.psl.elitemovie.config;
 
-import java.net.URISyntaxException;
+import java.beans.PropertyVetoException;
 import java.util.Properties;
 
 import javax.persistence.EntityManagerFactory;
@@ -14,13 +14,14 @@ import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import co.com.psl.elitemovie.model.Movie;
+
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 /**
  * This class configure hibernate, jpa and all the required params for the
@@ -64,37 +65,38 @@ public class DatabaseConfiguration implements EnvironmentAware {
 
 	}
 
-	@Bean
-	public DataSource dataSource() throws URISyntaxException {
-		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setUsername("postgres");
-		dataSource.setPassword("footprints");
-		dataSource.setUrl(propertyResolver.getProperty("url"));
-		return dataSource;
-	}
-
-	// /**
-	// * DataSource including connection pooling
-	// */
 	// @Bean
-	// public ComboPooledDataSource dataSource() throws PropertyVetoException {
-	// ComboPooledDataSource cpoDataSource = new ComboPooledDataSource();
-	// cpoDataSource.setUser("postgres");
-	// cpoDataSource.setPassword("footprints");
-	// cpoDataSource.setDriverClass(propertyResolver
-	// .getProperty("driverClassName"));
-	// cpoDataSource.setJdbcUrl(propertyResolver.getProperty("url"));
-	// cpoDataSource.setMinPoolSize(Integer.parseInt(propertyResolver
-	// .getProperty("minPoolSize")));
-	// cpoDataSource.setMaxPoolSize(Integer.parseInt(propertyResolver
-	// .getProperty("maxPoolSize")));
-	// cpoDataSource.setAcquireIncrement(Integer.parseInt(propertyResolver
-	// .getProperty("aquireIncrement")));
-	// cpoDataSource
-	// .setIdleConnectionTestPeriod(Integer.parseInt(propertyResolver
-	// .getProperty("idleConnectionPeriod")));
-	// return cpoDataSource;
+	// public DataSource dataSource() throws URISyntaxException {
+	// DriverManagerDataSource dataSource = new DriverManagerDataSource();
+	// dataSource.setUsername("postgres");
+	// dataSource.setPassword("footprints");
+	// dataSource.setUrl(propertyResolver.getProperty("url"));
+	// return dataSource;
 	// }
+
+	/**
+	 * DataSource including connection pooling
+	 */
+	@Bean
+	public ComboPooledDataSource dataSource() throws PropertyVetoException {
+		ComboPooledDataSource c3p0DataSource = new ComboPooledDataSource();
+		c3p0DataSource.setUser("postgres");
+		c3p0DataSource.setPassword("footprints");
+		c3p0DataSource.setDriverClass(propertyResolver
+				.getProperty("driverClassName"));
+		c3p0DataSource.setJdbcUrl(propertyResolver.getProperty("url"));
+		c3p0DataSource.setMinPoolSize(Integer.parseInt(propertyResolver
+				.getProperty("minPoolSize")));
+		c3p0DataSource.setMaxPoolSize(Integer.parseInt(propertyResolver
+				.getProperty("maxPoolSize")));
+		c3p0DataSource.setAcquireIncrement(Integer.parseInt(propertyResolver
+				.getProperty("aquireIncrement")));
+		c3p0DataSource
+				.setIdleConnectionTestPeriod(Integer.parseInt(propertyResolver
+						.getProperty("idleConnectionPeriod")));
+
+		return c3p0DataSource;
+	}
 
 	@Bean
 	public PlatformTransactionManager transactionManager(
