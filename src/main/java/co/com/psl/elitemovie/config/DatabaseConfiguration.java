@@ -81,7 +81,7 @@ public class DatabaseConfiguration implements EnvironmentAware {
 	public ComboPooledDataSource dataSource() throws PropertyVetoException {
 		ComboPooledDataSource c3p0DataSource = new ComboPooledDataSource();
 		c3p0DataSource.setUser("postgres");
-		c3p0DataSource.setPassword("footprints");
+		c3p0DataSource.setPassword("Admin");
 		c3p0DataSource.setDriverClass(propertyResolver
 				.getProperty("driverClassName"));
 		c3p0DataSource.setJdbcUrl(propertyResolver.getProperty("url"));
