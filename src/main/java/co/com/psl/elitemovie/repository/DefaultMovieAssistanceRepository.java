@@ -1,5 +1,6 @@
 package co.com.psl.elitemovie.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.ehcache.Cache;
@@ -37,6 +38,18 @@ public class DefaultMovieAssistanceRepository implements MovieAssistanceReposito
 	@Override
 	public List<MovieAssistance> findAll() {
 		return persistenceService.executeQuery(MovieAssistance.class, "SELECT ma FROM MovieAssistance ma");
+	}
+
+
+	@Override
+	public List<Integer> findMoviesByUserId(int id) {
+		List<Integer> movieIds = new ArrayList<Integer>();
+
+		String query = "select ma.showTime.movie.id from MovieAssistance ma where ma.user.id = ?";
+
+		movieIds = persistenceService.executeQuery(Integer.class, query, id);
+
+		return movieIds;
 	}
 
 }

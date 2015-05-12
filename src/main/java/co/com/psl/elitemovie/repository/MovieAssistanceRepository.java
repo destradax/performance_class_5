@@ -10,4 +10,6 @@ public interface MovieAssistanceRepository {
 
 	List<MovieAssistance> findAll();
 
+	List<Integer> findMoviesByUserId(int id);
+
 }
